@@ -14,21 +14,13 @@ func main() {
 	const numAccounts = 100
 	const numTransactions = 10000
 
-	fmt.Println("=== ДЕМОНСТРАЦИЯ РАБОТЫ С DEADLOCK ===")
+	fmt.Println("=== ДЕМОНСТРАЦИЯ РАБОТЫ С БАНКОВСКИМИ ПЕРЕВОДАМИ ===")
 
 	bankDeadlock := problem.Bank{}
 	for i := 0; i < numAccounts; i++ {
 		bankDeadlock.Accounts = append(bankDeadlock.Accounts, &problem.Account{ID: i, Balance: 1000})
 	}
 	runTransactions(&bankDeadlock, numTransactions, true)
-
-	fmt.Println("=== ДЕМОНСТРАЦИЯ КОРРЕКТНОЙ РАБОТЫ ===")
-
-	bankCorrect := solution.Bank{}
-	for i := 0; i < numAccounts; i++ {
-		bankCorrect.Accounts = append(bankCorrect.Accounts, &solution.Account{ID: i, Balance: 1000})
-	}
-	runTransactions(&bankCorrect, numTransactions, false)
 }
 
 func runTransactions(bank interface{}, count int, useDeadlock bool) {

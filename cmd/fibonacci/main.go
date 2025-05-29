@@ -4,12 +4,11 @@ import (
 	"fmt"
 	"time"
 	"deadlock/taskFibonacci/problem"
-	"deadlock/taskFibonacci/solution"
 )
 
 func main() {
 	// Deadlock версия
-	fmt.Println("Демонстрация deadlock:")
+	fmt.Println("=== ДЕМОНСТРАЦИЯ РАБОТЫ ЗАДАЧИ С ЧИСЛАМИ ФИБОНАЧЧИ ===")
 	fcProblem := problem.NewCalculator()
 	done := make(chan bool)
 
@@ -20,13 +19,8 @@ func main() {
 
 	select {
 	case <-done:
-		fmt.Println("Неожиданно: deadlock не произошёл")
-	case <-time.After(2 * time.Second):
-		fmt.Println("Deadlock подтверждён")
+		fmt.Println("Программа успешно завершила работу")
+	case <-time.After(3 * time.Second):
+		fmt.Println("Обнаружен Deadlock")
 	}
-
-	// Исправленные версии
-	fcSolution := solution.NewCalculator()
-	fmt.Println("DoubleCheck:", fcSolution.FibonacciWithDoubleCheck(20))
-	fmt.Println("SyncMap:", fcSolution.FibonacciWithSyncMap(20))
 }

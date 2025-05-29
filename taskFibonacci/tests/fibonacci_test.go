@@ -4,53 +4,42 @@ import (
 	"testing"
 	"time"
 	"deadlock/taskFibonacci/problem"
-	"deadlock/taskFibonacci/solution"
 )
 
-func TestFibonacciWithDeadlock(t *testing.T) {
+func TestCorrectnessAfterFix(t *testing.T) {
 	fc := problem.NewCalculator()
 
-	done := make(chan bool)
-	go func() {
-		fc.FibonacciWithDeadlock(10)
-		done <- true
-	}()
-
-	select {
-	case <-done:
-		t.Error("Ожидался deadlock, но функция завершилась")
-	case <-time.After(1 * time.Second):
+	if res := fc.FibonacciWithDeadlock(0); res != 0 {
+		t.Errorf("Fib(0): ожидалось 0, получено %d", res)
 	}
-}
-
-func TestFibonacciWithDoubleCheck(t *testing.T) {
-	fc := solution.NewCalculator()
-
-	results := make(chan int, 1)
-	go func() {
-		results <- fc.FibonacciWithDoubleCheck(20)
-	}()
-
-	select {
-	case res := <-results:
-		t.Logf("Fib(20) = %d", res)
-	case <-time.After(2 * time.Second):
-		t.Error("Функция не завершилась в течение 2 секунд")
+	if res := fc.FibonacciWithDeadlock(1); res != 1 {
+		t.Errorf("Fib(1): ожидалось 1, получено %d", res)
 	}
-}
 
-func TestFibonacciWithSyncMap(t *testing.T) {
-	fc := solution.NewCalculator()
+	testCases := []struct {
+		n, expected int
+	}{
+		{5, 5},
+		{10, 55},
+		{15, 610},
+	}
 
-	results := make(chan int, 1)
-	go func() {
-		results <- fc.FibonacciWithSyncMap(20)
-	}()
+	for _, tc := range testCases {
+		done := make(chan bool)
+		var result int
 
-	select {
-	case res := <-results:
-		t.Logf("Fib(20) = %d", res)
-	case <-time.After(2 * time.Second):
-		t.Error("Функция не завершилась в течение 2 секунд")
+		go func(n int) {
+			result = fc.FibonacciWithDeadlock(n)
+			done <- true
+		}(tc.n)
+
+		select {
+		case <-done:
+			if result != tc.expected {
+				t.Errorf("Fib(%d): ожидалось %d, получено %d", tc.n, tc.expected, result)
+			}
+		case <-time.After(1 * time.Second):
+			t.Errorf("Fib(%d): функция не завершилась (deadlock)", tc.n)
+		}
 	}
 }
