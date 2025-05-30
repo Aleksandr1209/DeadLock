@@ -70,7 +70,7 @@ DeadLock/
 
   2. Увидите сообщение о deadlock
 
-  3. Исправьте код в taskBank/problem/bank.go
+  3. Исправьте код в **taskBank/problem/bank.go**
 
   4. Проверьте исправление:
 
@@ -97,7 +97,7 @@ DeadLock/
 
  2. Увидите сообщение о deadlock
 
- 3. Исправьте код в taskFibonacci/problem/fibonacci.go
+ 3. Исправьте код в **taskFibonacci/problem/fibonacci.go**
 
  4. Проверьте исправление:
 
@@ -110,9 +110,9 @@ DeadLock/
 
 **Файлы:**
 
-**taskTickets/problem/tickets.go** - код для исправления
+**taskTickets/problem/booking.go** - код для исправления
 
-**taskTickets/solution/tickets.go** - правильная реализация (как вариант исправления)
+**taskTickets/solution/booking.go** - правильная реализация (как вариант исправления)
 
 **cmd/tickets/main.go** - демонстрация проблемы
 
@@ -124,7 +124,7 @@ DeadLock/
 
  2. Увидите сообщение о deadlock
 
- 3. Исправьте код в taskTickets/problem/tickets.go
+ 3. Исправьте код в **taskTickets/problem/booking.go**
 
  4. Проверьте исправление:
 
